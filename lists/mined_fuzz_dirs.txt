@@ -1,1 +1,2 @@
-site-log
+use SecLists/Discovery/Web-Content/big.txt
+https://github.com/danielmiessler/SecLists.git
