@@ -1,0 +1,18 @@
+Linux privilage escalation
+
+*******************************************************************************
+GTFOBins is a curated list of Unix binaries that can used to bypass local
+security restrictions in misconfigured systems.
+
+https://gtfobins.github.io/
+
+Project like this for Windows
+https://lolbas-project.github.io/
+
+*******************************************************************************
+
+
+*******************************************************************************
+
+https://xakep.ru/2020/08/25/linux-privileges-escalation/
+*******************************************************************************
