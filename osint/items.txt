@@ -1,0 +1,17 @@
+Sites:
+    https://namechk.com/
+    https://whatsmyname.app/
+    https://namecheckup.com/ will
+
+Tools:
+    https://github.com/WebBreacher/WhatsMyName
+    https://github.com/sherlock-project/sherlock
+
+Password leaks:
+    https://snusbase.com/
+    https://leak-lookup.com/
+    https://dehashed.com/
+    https://intelx.io/signup
+    https://44.235.17.188
+    https://haveibeenpwned.com/
+    https://tools.epieos.com/
