@@ -1,0 +1,9 @@
+Get-ChildItem -Directory -Recurse -Hidden -ErrorAction SilentlyContinue | Select-String -Pattern "elf"
+
+Get-ChildItem -Path C:\Windows\ -File -Recurse -Hidden -ErrorAction SilentlyContinue | Select-String -Pattern "elf"
+
+Get-ChildItem -File -Recurse -Hidden -ErrorAction SilentlyContinue -Filter '*3*'
+
+Get-ChildItem -Recurse -Hidden -ErrorAction SilentlyContinue -Filter '*3*'
+
+Get-ChildItem -Path C:\Windows -File -Recurse -Hidden -ErrorAction SilentlyContinue -Filter '*3*'
