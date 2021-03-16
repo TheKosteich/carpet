@@ -1,4 +1,6 @@
-Get-ChildItem -Directory -Recurse -Hidden -ErrorAction SilentlyContinue | Select-String -Pattern "elf"
+# Recursive find only directorys in current directory contains <keyword> in
+# name. Output result without errors
+Get-ChildItem -Directory -Recurse -Hidden -ErrorAction SilentlyContinue | Select-String -Pattern "keyword"
 
 Get-ChildItem -Path C:\Windows\ -File -Recurse -Hidden -ErrorAction SilentlyContinue | Select-String -Pattern "elf"
 

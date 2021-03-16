@@ -1,0 +1,20 @@
+# Find SUID bit bins
+
+# Find regular files with SUID, error out to /dev/null
+find / -perm -u=s -type f 2>/dev/null
+
+# Find files with SUID, error out to /dev/null
+find / -perm /4000 2>/dev/null
+
+# Find files with SGID, error out to /dev/null
+find / -perm /2000 2>/dev/null
+
+# Find files with both SGID and SGID, error out to /dev/null
+find / -perm /6000 2>/dev/null
+
+# find files and execute ls
+find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
+
+What file looks particularly out of the ordinary?
+    /usr/bin/menu
+    /usr/bin/systemctl
