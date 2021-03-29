@@ -1,1 +1,5 @@
-hydra -l <username> -P <wordlist> 10.10.213.213 http-post-form "/:username=^USER^&password=^PASS^:F=incorrect" -V
+# Brute login post form
+    hydra -l <username> -P <wordlist> <host> http-post-form
+"/:username=^USER^&password=^PASS^:F=<incorrect login message>" -V
+
+
