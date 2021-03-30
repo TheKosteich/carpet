@@ -1,6 +1,9 @@
 # Script for enumirate linux from inside
 https://github.com/rebootuser/LinEnum/
 
+# Update shell using Python
+python -c 'import pty; pty.spawn("/bin/bash")'
+
 
 # Upgrade nc shell
 # --------------------------------------------------------------------- #
