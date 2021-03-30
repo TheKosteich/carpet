@@ -3,11 +3,12 @@
 echo "run this script after system update!"
 echo "$ apt update && apt upgrade -y"
 
-apt install tmux fonts-powerline
+apt install tmux fonts-powerline cherrytree terminator starkiller sshuttle
 
 mkdir .tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 cp ./.tmux.conf ~
+
 
 cd /opt
 git clone https://github.com/sherlock-project/sherlock
@@ -22,5 +23,8 @@ git clone https://github.com/pentestmonkey/php-reverse-shell
 git clone https://github.com/NinjaJc01/joomblah-3
 git clone https://github.com/Neohapsis/creddump7
 git clone https://github.com/MuirlandOracle/CVE-2019-15107
+git clone https://github.com/MuirlandOracle/C-Sharp-Port-Scan
 git clone https://github.com/SecureAuthCorp/impacket
 git clone https://github.com/andrew-d/static-binaries
+git clone https://github.com/BC-SECURITY/Empire/
+cd Empire && ./setup/install.sh && cd ..
