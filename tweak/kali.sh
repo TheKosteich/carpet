@@ -3,7 +3,11 @@
 echo "run this script after system update!"
 echo "$ apt update && apt upgrade -y"
 
-apt install tmux fonts-powerline cherrytree terminator starkiller sshuttle
+apt install tmux fonts-powerline cherrytree terminator starkiller sshuttle exiftool mono-devel bloodhound docker.io gcc-9-base
+
+# To run bloodhound
+#   $ neo4j console
+#   - default credentials -> neo4j:neo4j
 
 mkdir .tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -25,6 +29,12 @@ git clone https://github.com/Neohapsis/creddump7
 git clone https://github.com/MuirlandOracle/CVE-2019-15107
 git clone https://github.com/MuirlandOracle/C-Sharp-Port-Scan
 git clone https://github.com/SecureAuthCorp/impacket
+cd /opt/impacket && sudo pip3 install . && cd ..
 git clone https://github.com/andrew-d/static-binaries
 git clone https://github.com/BC-SECURITY/Empire/
 cd Empire && ./setup/install.sh && cd ..
+git clone https://github.com/internetwache/GitTools
+git clone https://github.com/int0x33/nc.exe/
+git clone https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/
+git clone https://github.com/Unode/firefox_decrypt
+git clone https://github.com/RUB-NDS/PRET

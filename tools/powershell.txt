@@ -9,3 +9,7 @@ Get-ChildItem -File -Recurse -Hidden -ErrorAction SilentlyContinue -Filter '*3*'
 Get-ChildItem -Recurse -Hidden -ErrorAction SilentlyContinue -Filter '*3*'
 
 Get-ChildItem -Path C:\Windows -File -Recurse -Hidden -ErrorAction SilentlyContinue -Filter '*3*'
+
+
+# Get system proxy
+    $webproxy = (get-itemproperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings').ProxyServer

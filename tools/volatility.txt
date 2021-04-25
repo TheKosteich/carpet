@@ -1,0 +1,22 @@
+To install from git
+    $ git clone https://github.com/volatilityfoundation/volatility
+
+
+
+!!! HowTo fix errors after volatility installation !!!
+
+https://github.com/volatilityfoundation/volatility/issues/771
+
+git clone https://github.com/gdabah/distorm.git
+cd distorm3
+python setup.py build
+sudo python setup.py build install
+
+sudo apt-get install yara -y
+    Get pycrypto, for example from:
+wget https://files.pythonhosted
+.org/packages/60/db/645aa9af249f059cc3a368b118de33889219e0362141e75d4eaf6f80f163/pycrypto-2.6.1.tar.gz
+tar -xvzf pycrypto-2.6.1.tar.gz
+cd pycrypto-2.6.1
+python setup.py build
+sudo python setup.py build install

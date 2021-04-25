@@ -1,0 +1,13 @@
+# Run openvas in docker with storage
+docker run -d -p 443:443 -v $(pwd)/data:/var/lib/openvas/mgr/ --name openvas mikesplain/openvas
+
+# Update NVT's
+docker exec -it $(docker ps|grep "mikesplain/openvas"|cut -d" " -f1) /bin/bash
+
+root@0980b00ce461:/# greenbone-nvt-sync
+...
+sent 49,986 bytes  received 6,064,337 bytes  643,612.95 bytes/sec
+total size is 266,156,233  speedup is 43.53
+
+root@0980b00ce461:/# openvasmd --rebuild --progress
+Rebuilding NVT cache... done.
