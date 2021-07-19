@@ -20,7 +20,7 @@ git clone https://github.com/NinjaJc01/ssh-backdoor
 git clone https://github.com/danielmiessler/SecLists
 git clone https://github.com/zaproxy/zap-extensions
 git clone https://github.com/saghul/lxd-alpine-builder
-git clone https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet#active-directory-exploitation-cheat-sheet
+git clone https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet
 git clone https://github.com/payloadbox/sql-injection-payload-list
 git clone https://github.com/swisskyrepo/PayloadsAllTheThings
 git clone https://github.com/pentestmonkey/php-reverse-shell
@@ -38,3 +38,4 @@ git clone https://github.com/int0x33/nc.exe/
 git clone https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/
 git clone https://github.com/Unode/firefox_decrypt
 git clone https://github.com/RUB-NDS/PRET
+git clone https://github.com/rbsec/dnscan
