@@ -39,3 +39,6 @@ git clone https://github.com/carlospolop/privilege-escalation-awesome-scripts-su
 git clone https://github.com/Unode/firefox_decrypt
 git clone https://github.com/RUB-NDS/PRET
 git clone https://github.com/rbsec/dnscan
+wget http://downloads.sourceforge.net/project/pentbox18realised/pentbox-1.8.tar.gz
+tar xvf pentbox-1.8.tar.gz
+rm pentbox-1.8.tar.gz

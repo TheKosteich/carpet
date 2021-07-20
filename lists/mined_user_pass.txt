@@ -1,2 +1,3 @@
 tomcat:s3cret
 oxidized:$ecretP@$$Word
+admin:Funt1me!
