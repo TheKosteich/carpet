@@ -39,6 +39,10 @@ git clone https://github.com/carlospolop/privilege-escalation-awesome-scripts-su
 git clone https://github.com/Unode/firefox_decrypt
 git clone https://github.com/RUB-NDS/PRET
 git clone https://github.com/rbsec/dnscan
+wget https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_linux_amd64
 wget http://downloads.sourceforge.net/project/pentbox18realised/pentbox-1.8.tar.gz
 tar xvf pentbox-1.8.tar.gz
 rm pentbox-1.8.tar.gz
+# Nishang is a framework and collection of scripts and payloads which enables
+# usage of PowerShell for offensive security
+git clone https://github.com/samratashok/nishang

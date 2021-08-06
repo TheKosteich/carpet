@@ -1,0 +1,5 @@
+# With Kerberos port open, we can use a tool called Kerbrute (by Ronnie
+# Flathers @ropnop) to brute force discovery of users, passwords and even
+# password spray!
+
+https://github.com/ropnop/kerbrute/releases
