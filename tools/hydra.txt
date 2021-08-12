@@ -1,5 +1,6 @@
 # Brute login post form
-    hydra -l <username> -P <wordlist> <host> http-post-form
-"/:username=^USER^&password=^PASS^:F=<incorrect login message>" -V
+    hydra -l <username> -P <wordlist> <host> http-post-form "/:username=^USER^&password=^PASS^:F=<incorrect login message>" -V
+
+# Brute IMAP
 
 

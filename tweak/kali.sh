@@ -46,3 +46,4 @@ rm pentbox-1.8.tar.gz
 # Nishang is a framework and collection of scripts and payloads which enables
 # usage of PowerShell for offensive security
 git clone https://github.com/samratashok/nishang
+git clone https://github.com/carlospolop/PEASS-ng

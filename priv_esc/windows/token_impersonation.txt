@@ -58,7 +58,7 @@ exploit this vulnerability. To load the incognito module in metasploit enter:
     msf6 > load incognito
 
 To check which tokens are available, enter the
-    msf6 > list_tokens -g"
+    msf6 > list_tokens -g
 
 If we can see that the "BUILTIN\Administrators" token is available, we cat
 use the command to impersonate the Administrators token

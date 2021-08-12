@@ -1,0 +1,3 @@
+# Scan host to find hidden directories
+    gobuster dir -u http://<host>/ -w /opt/SecLists/Discovery/Web-Content/big.txt
+

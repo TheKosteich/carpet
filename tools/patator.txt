@@ -1,0 +1,2 @@
+# Brut POST form
+    patator http_fuzz url=<full_form_url> method=POST body='username=<username>&password=FILE0&<other_parameters>' 0=wordlist.txt follow=1 accept_cookie=1 -x ignore:fgrep='<Ignore message>'

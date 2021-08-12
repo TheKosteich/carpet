@@ -8,6 +8,7 @@ https://github.com/rebootuser/LinEnum/
 
     $ python -c 'import pty; pty.spawn("/bin/bash")'
     $ python3 -c 'import pty; pty.spawn("/bin/bash")'
+    $ python -c 'import pty;pty.spawn("/bin/bash")';
 
 
 ########################################################################
@@ -173,3 +174,10 @@ Attacker
 On exploiting machine:
     $ /tmp/x
     $ id
+
+
+########################################################################
+################## Metasploit exploit suggester ########################
+########################################################################
+
+    post/multi/recon/local_exploit_suggester

