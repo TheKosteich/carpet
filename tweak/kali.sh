@@ -18,6 +18,8 @@ cd /opt
 git clone https://github.com/sherlock-project/sherlock
 git clone https://github.com/NinjaJc01/ssh-backdoor
 git clone https://github.com/danielmiessler/SecLists
+# add custom content to dirlist
+echo "wp-login.php" >> /opt/SecLists/Discovery/Web-Content/big.txt
 git clone https://github.com/zaproxy/zap-extensions
 git clone https://github.com/saghul/lxd-alpine-builder
 git clone https://github.com/S1ckB0y1337/Active-Directory-Exploitation-Cheat-Sheet
@@ -47,3 +49,7 @@ rm pentbox-1.8.tar.gz
 # usage of PowerShell for offensive security
 git clone https://github.com/samratashok/nishang
 git clone https://github.com/carlospolop/PEASS-ng
+git clone https://github.com/rebootuser/LinEnum
+# Sigma translate search query to SIEMs
+# Online version - https://uncoder.io/
+git clone https://github.com/Neo23x0/sigma

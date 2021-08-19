@@ -1,0 +1,9 @@
+# Scan Wordpress with API token to show vulnerabilities
+    wpscan --url http://<target>/ --api-token <token>
+
+# Scan Wordpress to vulnerabilities and enumirate vulnerable plugins and
+# enumirate usernames
+    wpscan --url http://<target>/ --api-token <token> -e vp,u
+
+# Brute Wordpress user password
+    wpscan --url http://<target>/ --usernames <username> --passwords <password_file> --max-threads 50

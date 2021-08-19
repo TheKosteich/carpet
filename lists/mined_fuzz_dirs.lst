@@ -1,2 +1,1 @@
-use SecLists/Discovery/Web-Content/big.txt
-https://github.com/danielmiessler/SecLists.git
+wp-login.php
