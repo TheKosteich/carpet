@@ -50,6 +50,15 @@ https://github.com/rebootuser/LinEnum/
 
     $ find / -name authorized_keys 2> /dev/null
     $ find / -name id_rsa 2> /dev/null
+    $ find /<dir> -name "file-pattern" -print 2> /dev/null | xargs grep --color=auto -i "word-to-search"
+
+    # Examples:
+    $ find / -name "*.conf" -print 2> /dev/null | xargs grep --color=auto -i "password"
+    $ find / -name "*.xml" -print 2> /dev/null | xargs grep --color=auto -i "pass"
+    $ find / -name "*.yaml" -print 2> /dev/null | xargs grep --color=auto -i "pass"
+    $ find / -name "*.txt" -print 2> /dev/null | xargs grep --color=auto -i "pass"
+    $ find / -name "*.log" -print 2> /dev/null | xargs grep --color=auto -i "pass"
+    $ $ find / -name "*.out" -print 2> /dev/null | xargs grep --color=auto -i "pass"
 
 ########################################################################
 ################## Exploiting SUDO Permissions #########################
