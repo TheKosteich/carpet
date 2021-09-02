@@ -46,6 +46,7 @@ https://github.com/rebootuser/LinEnum/
 ##################### Finding sensitive data ###########################
 ########################################################################
 
+    $ grep -rnw './' -e 'password'
     $ cat ~/.bash_history | grep -i passw
 
     $ find / -name authorized_keys 2> /dev/null

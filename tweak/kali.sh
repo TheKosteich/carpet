@@ -53,3 +53,4 @@ git clone https://github.com/rebootuser/LinEnum
 # Sigma translate search query to SIEMs
 # Online version - https://uncoder.io/
 git clone https://github.com/Neo23x0/sigma
+git clone https://github.com/unode/firefox_decrypt
