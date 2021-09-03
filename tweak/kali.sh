@@ -54,3 +54,11 @@ git clone https://github.com/rebootuser/LinEnum
 # Online version - https://uncoder.io/
 git clone https://github.com/Neo23x0/sigma
 git clone https://github.com/unode/firefox_decrypt
+
+# To correctly decrypt Windows 10 SAM
+git clone https://github.com/Tib3rius/creddump7
+pip3 install pycrypto
+python3 creddump7/pwdump.py SYSTEM SAM
+
+# Sysmon config
+git clone https://github.com/SwiftOnSecurity/sysmon-config
