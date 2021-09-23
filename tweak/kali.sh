@@ -3,7 +3,7 @@
 echo "run this script after system update!"
 echo "$ apt update && apt upgrade -y"
 
-apt install tmux fonts-powerline cherrytree terminator starkiller sshuttle exiftool mono-devel bloodhound docker.io gcc-9-base
+apt install tmux fonts-powerline cherrytree terminator starkiller sshuttle exiftool mono-devel bloodhound docker.io gcc-9-base simplescreenrecorder
 
 # To run bloodhound
 #   $ neo4j console
@@ -62,3 +62,13 @@ python3 creddump7/pwdump.py SYSTEM SAM
 
 # Sysmon config
 git clone https://github.com/SwiftOnSecurity/sysmon-config
+git clone https://github.com/ion-storm/sysmon-config
+
+# Kerberose attack
+git clone https://github.com/GhostPack/Rubeus
+
+# Post exploitation - find sensitive data
+git clone https://github.com/AlessandroZ/LaZagne
+
+# Windows kernel exploits
+git clone https://github.com/SecWiki/windows-kernel-exploits

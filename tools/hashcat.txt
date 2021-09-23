@@ -1,0 +1,8 @@
+# Use Google Colab to crack passwords
+https://github.com/someshkar/colabcat
+
+# Crack NT password with bruteforce
+hashcat -m 1000 -a 3 -i --increment-min=10 .\hashes\nt.hash -1 ?l?u?d --force ?1?1?1?1?1?1?1?1?1?1?1?1
+
+# Crack Linux ($6$ aka sha512crypt) with wordlist
+hashcat -m 1800 -a 0 <shadow_file> <wordlist>
