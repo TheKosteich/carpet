@@ -1,0 +1,20 @@
+We can run sysinternals from Web-server using command:
+    \\live.sysinternals.com\tools\procmon.exe
+
+For that we need enable "webclient" service, Turn on network discovery in
+advanced sharing settings and install WebDAV-Redirector Windows Feature
+    control.exe /name Microsoft.NetworkAndSharingCenter
+    Install-WindowsFeature WebDAV-Redirector –Restart
+
+Then, we can connect web-server as smb
+    net user * \\live.sysinternals.com\tools\
+
+
+******************************************************************************
+
+Check unsigned or vulnerable files(check with virustotal) on System32 directory
+    sigcheck.exe -u -e C:\windows\System32 -accepteula
+
+-u "If VirusTotal check is enabled, show files that are unknown by VirusTotal
+or have non-zero detection, otherwise show only unsigned files."
+-e "Scan executable images only (regardless of their extension)"

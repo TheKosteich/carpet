@@ -18,6 +18,7 @@ cd /opt
 git clone https://github.com/sherlock-project/sherlock
 git clone https://github.com/NinjaJc01/ssh-backdoor
 git clone https://github.com/danielmiessler/SecLists
+git clone https://github.com/ignis-sec/Pwdb-Public
 # add custom content to dirlist
 echo "wp-login.php" >> /opt/SecLists/Discovery/Web-Content/big.txt
 git clone https://github.com/zaproxy/zap-extensions
@@ -72,3 +73,11 @@ git clone https://github.com/AlessandroZ/LaZagne
 
 # Windows kernel exploits
 git clone https://github.com/SecWiki/windows-kernel-exploits
+
+# Yara system analysis
+git clone https://github.com/Neo23x0/Loki
+git clone https://github.com/Neo23x0/Loki
+git clone https://github.com/Neo23x0/yarGen.git
+
+# Windows PrintNightmare exploit
+git clone https://github.com/cube0x0/CVE-2021-1675
