@@ -146,7 +146,7 @@ function Get-RightsInAD{
 	Return $AccessRights
 }
 
-Write-Host "Initializing..." -Fore Blue
+Write-Host "Initializing..."
 
 # Create reports directory if not
 IF (!(Test-Path $ReportsDirectory)) {
@@ -168,21 +168,21 @@ $DomainDN = $DomainInfo.DistinguishedName
 # Get Forest info
 $ForestDNSName = (Get-ADForest).Name
 
-Write-Host "Starting checks for $DomainName..." -Fore Blue
+Write-Host "Starting checks for $DomainName..."
 
 Write-Host ""
 
 # Get Forest Functional Level
 $ForestFunctionalLevel = (Get-ADForest).ForestMode
 $DomainFunctionalLevel = (Get-ADDomain $DomainName).DomainMode
-Write-Host "Forest Functional Level: $ForestFunctionalLevel `n" -Fore Blue
-Write-Host "Domain Functional Level: $DomainFunctionalLevel `n" -Fore Blue
+Write-Host "Forest Functional Level: $ForestFunctionalLevel `n"
+Write-Host "Domain Functional Level: $DomainFunctionalLevel `n"
 
 Write-Host ""
 
 # Get Domain Controllers
 $DomainControllers = Get-ADDomainController -filter *
-Write-Host "$DomainName Domain Controllers and OS:  `n" -Fore Blue
+Write-Host "$DomainName Domain Controllers and OS:  `n"
 $DomainControllers | Select HostName,OperatingSystem | Format-Table -AutoSize
 
 Write-Host ""
@@ -195,32 +195,32 @@ $RequredProperties = @("Name","Enabled","SAMAccountname","DisplayName","Enabled"
 "DistinguishedName", "ServicePrincipalName","SIDHistory","PrimaryGroupID","UserAccountControl")
 
 $DomainUsers = get-aduser -filter * -Property $RequredProperties
-Write-Host "Total domain users count: $($DomainUsers.count)" -Fore Blue
+Write-Host "Total domain users count: $($DomainUsers.count)"
 
 $EnabledUsers = $DomainUsers | Where {$_.Enabled -eq $True }
-Write-Host "Enabled domain users count: $($EnabledUsers.count)" -Fore Blue
+Write-Host "Enabled domain users count: $($EnabledUsers.count)"
 
 $LastLogonDate = $(Get-Date) - $(New-TimeSpan -days $UserLogonAge)
 $LastPasswordChangeDate = $(Get-Date) - $(New-TimeSpan -days $UserPasswordAge)
 
 $InactiveEnabledUsers = $EnabledUsers | Where { ($_.LastLogonDate -le $LastLogonDate) -AND `
 		($_.PasswordLastSet -le $LastPasswordChangeDate) }
-Write-Host "Inactive enabled users count: $($InactiveEnabledUsers.count)" -Fore Blue
+Write-Host "Inactive enabled users count: $($InactiveEnabledUsers.count)"
 
 $PasswordNeverExpireUsers = $DomainUsers | Where {$_.PasswordNeverExpires -eq $True}
-Write-Host "Users count with  password never expired: $($PasswordNeverExpireUsers.count)" -Fore Blue
+Write-Host "Users count with  password never expired: $($PasswordNeverExpireUsers.count)"
 
 $PasswordNotRequiredUsers = $DomainUsers | Where {$_.PasswordNotRequired -eq $True}
-Write-Host "Users count with password not required: $($PasswordNotRequiredUsers.count)" -Fore Blue
+Write-Host "Users count with password not required: $($PasswordNotRequiredUsers.count)"
 
 $ReversibleEncryptionPasswordUsers = $DomainUsers | Where { $_.UserAccountControl -band 0x0080 }
 Write-Host "Users count with reversible encrypted password: $($ReversibleEncryptionPasswordUsers.count)" -Fore Blue
 
 $SIDHistoryUsers = $DomainUsers | Where {$_.SIDHistory -like "*"}
-Write-Host "Users count with SID history: $($SIDHistoryUsers.count)" -Fore Blue
+Write-Host "Users count with SID history: $($SIDHistoryUsers.count)"
 
 $KerberosDESUsers = $DomainUsers | Where { $_.UserAccountControl -band 0x200000 }
-Write-Host "Users count with Kerberos DES setted: $($KerberosDESUsers.count)" -Fore Blue
+Write-Host "Users count with Kerberos DES setted: $($KerberosDESUsers.count)"
 
 $NotRequirePreAuthUsers = $DomainUsers | Where {$_.DoesNotRequirePreAuth -eq $True}
 Write-Host "User count with not required Kerberos Pre-authentication: $($NotRequirePreAuthUsers.count)" -Fore Blue
@@ -228,15 +228,15 @@ Write-Host "User count with not required Kerberos Pre-authentication: $($NotRequ
 Write-Host ""
 
 # Get domain password policy
-Write-Host "$DomainName Password Policy" -Fore Blue
+Write-Host "$DomainName Password Policy"
 $PasswordPolicy = Get-ADDefaultDomainPasswordPolicy
 Write-Output $PasswordPolicy
 
 # Get domain admins
 $DomainAdminsSID = "$($DomainInfo.DomainSID)-500"
 $DefaultDomainAdmin = Get-ADUser $DomainAdminsSID -Properties Name,Enabled,Created,PasswordLastSet,LastLogonDate,ServicePrincipalName,SID
-Write-Host "Default Domain Admin username: $($DefaultDomainAdmin.name)" -Fore Blue
-$DefaultDomainAdmin | Select Enabled,Created,PasswordLastSet,LastLogonDate | Format-Table -AutoSize
+Write-Host "Default Domain Admin username: $($DefaultDomainAdmin.name)"
+$DefaultDomainAdmin | Select Enabled,Created,PasswordLastSet,LastLogonDate,ServicePrincipalName | Format-Table -AutoSize
 
 Write-Host "Trying to find other Domain Admins..." -Fore Yellow
 $DomainAdmins = ""
@@ -272,8 +272,9 @@ if ($DomainAdmins)
 					}
 			}
 		Write-Host " "
-		Write-Host "Other Domain Admins: " -Fore Blue
-		$DomainAdminsArray | sort PasswordLastSet | select name,DistinguishedName,PasswordLastSet,LastLogonDate | Format-Table -AutoSize
+		Write-Host "Other Domain Admins: "
+		$DomainAdminsArray | sort PasswordLastSet | select name,DistinguishedName,PasswordLastSet,LastLogonDate,
+		ServicePrincipalName | Format-Table -AutoSize
 	}
 else
 	{
