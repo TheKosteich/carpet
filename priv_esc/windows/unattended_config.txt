@@ -3,8 +3,8 @@ Check unattended setup config. Password can stored in base64 format.
 Unattended Setup is the method by which original equipment manufacturers
 (OEMs), corporations, and other users install Windows NT in unattended mode.
 
-type C:\Windows\Panther\unattend.xml
+type C:\Windows\Parthner\unattend.xml
 
 or
 
-type C:\Windows\Panther\Unattend\Unattended.xml
+type C:\Windows\Parthner\Unattend\Unattended.xml

@@ -1,11 +1,24 @@
 Sites:
     https://namechk.com/
     https://whatsmyname.app/
-    https://namecheckup.com/ will
+    https://namecheckup.com/
+    https://search4faces.com
+    https://mever.iti.gr/forensics/
+    https://videocleaner.com/
 
 Tools:
     https://github.com/WebBreacher/WhatsMyName
     https://github.com/sherlock-project/sherlock
+    https://github.com/HowToFind-bot/YaSeeker
+    https://github.com/mxrch/GHunt
+    https://github.com/snooppr/snoop
+    https://github.com/Y-Vladimir/SmartDeblur
+    https://azure.microsoft.com/ru-ru/products/video-analyzer/#overview
+
+
+Mobile Tools:
+    https://github.com/bkerler/MR
+    https://www.doubleblak.com/
 
 Password leaks:
     https://snusbase.com/
