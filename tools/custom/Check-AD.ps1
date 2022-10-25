@@ -2,8 +2,8 @@
 SCRIPTNAME: Check-AD.ps1
 AUTHOR: Konstantin Tornovskii
 
-Last Updated: 07/12/2021
-Version 0.0.1
+Last Updated: 07/09/2022
+Version 0.0.2
 
 This script is designed for capturing data from Active Directory. Script running
 result is common AD infrastracture weakness.
@@ -24,8 +24,8 @@ Param
     $DomainName = (Get-ADDomain).DNSRoot,
     $ReportsDirectory = 'c:\tmp\CheckAD-Reports',
 
-    [int]$UserLogonAge = '180',
-    [int]$UserPasswordAge = '180'
+    [int]$UserLogonAge = '90',
+    [int]$UserPasswordAge = '90'
 
  )
 
@@ -281,3 +281,59 @@ else
 		Write-Host 'No other Domain Admins found!' -Fore Red
 		Write-Host 'Try to find other Domain Admins manually.' -Fore Red
 	}
+
+## KRBTGT Account Password Information
+$DomainKRBTGTAccount = Get-ADUser 'krbtgt' -Server $DomainPDC -Properties 'msds-keyversionnumber',Created,PasswordLastSet
+Write-Host "$DomainName Domain Kerberos Service Account (KRBTGT): `n" -Fore Cyan
+$DomainKRBTGTAccount | Select DistinguishedName,Created,PasswordLastSet,'msds-keyversionnumber' | Format-Table -AutoSize
+
+## Identify AD Admins with SPNs
+Write-Host "$DomainName AD Admin Accounts with SPNs:" -Fore Cyan
+$DomainAdminsArray | Where {$_.ServicePrincipalName} | Select name,DistinguishedName,ServicePrincipalName | Format-Table -AutoSize
+Write-Host ""
+
+## Identify Accounts with Kerberos Delegation
+$KerberosDelegationArray = @()
+[array]$KerberosDelegationObjects =  Get-ADObject -filter { ((UserAccountControl -BAND 0x0080000) -OR (UserAccountControl -BAND 0x1000000) -OR (msDS-AllowedToDelegateTo -like '*') -OR (msDS-AllowedToActOnBehalfOfOtherIdentity -like '*')) -AND (PrimaryGroupID -ne '516') -AND (PrimaryGroupID -ne '521') } -Server $DomainPDC -prop Name,ObjectClass,PrimaryGroupID,UserAccountControl,ServicePrincipalName,msDS-AllowedToDelegateTo,msDS-AllowedToActOnBehalfOfOtherIdentity -SearchBase $DomainDN
+
+ForEach ($KerberosDelegationObjectItem in $KerberosDelegationObjects)
+ {
+    IF ($KerberosDelegationObjectItem.UserAccountControl -BAND 0x0080000)
+     { $KerberosDelegationServices = 'All Services' ; $KerberosType = 'Unconstrained' }
+    ELSE
+     { $KerberosDelegationServices = 'Specific Services' ; $KerberosType = 'Constrained' }
+
+    IF ($KerberosDelegationObjectItem.UserAccountControl -BAND 0x1000000)
+     { $KerberosDelegationAllowedProtocols = 'Any (Protocol Transition)' ; $KerberosType = 'Constrained with Protocol Transition' }
+    ELSE
+     { $KerberosDelegationAllowedProtocols = 'Kerberos' }
+
+    IF ($KerberosDelegationObjectItem.'msDS-AllowedToActOnBehalfOfOtherIdentity')
+     { $KerberosType = 'Resource-Based Constrained Delegation'  }
+
+    $KerberosDelegationObjectItem | Add-Member -MemberType NoteProperty -Name Domain -Value $Domain -Force
+    $KerberosDelegationObjectItem | Add-Member -MemberType NoteProperty -Name KerberosDelegationServices -Value $KerberosDelegationServices -Force
+    $KerberosDelegationObjectItem | Add-Member -MemberType NoteProperty -Name DelegationType -Value $KerberosType -Force
+    $KerberosDelegationObjectItem | Add-Member -MemberType NoteProperty -Name KerberosDelegationAllowedProtocols -Value $KerberosDelegationAllowedProtocols -Force
+
+    [array]$KerberosDelegationArray += $KerberosDelegationObjectItem
+ }
+
+Write-Host ""
+Write-Host "$DomainName Domain Accounts with Kerberos Delegation:" -Fore Cyan
+$KerberosDelegationArray | Sort DelegationType | Select DistinguishedName,DelegationType,Name,ServicePrincipalName | Format-Table -AutoSize
+Write-Host ""
+
+
+## Scan SYSVOL for Group Policy Preference Passwords
+Write-Host "$DomainName SYSVOL Scan for Group Policy Preference Passwords:" -Fore Cyan
+$DomainSYSVOLShareScan = "\\$DomainName\SYSVOL\$DomainName\Policies\*.xml"
+# Or more extensioned
+# $GPPPasswordData = findstr /s /I passw $DomainSYSVOLShareScan
+$GPPPasswordData = findstr /s /I cpassword $DomainSYSVOLShareScan
+$GPPPasswordData
+
+## Get GPO Owners and other info
+[Array]$DomainGPOs = Get-GPO -All -Domain $Domain
+$DomainGPOs | Select DisplayName,Owner | Format-Table -AutoSize
+$DomainGPOs
