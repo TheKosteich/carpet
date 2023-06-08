@@ -19,14 +19,12 @@ Import-Module ActiveDirectory
 Import-Module GroupPolicy
 
 ## Set constants
-Param
- (
+Param(
     $DomainName = (Get-ADDomain).DNSRoot,
     $ReportsDirectory = 'c:\tmp\CheckAD-Reports',
 
     [int]$UserLogonAge = '90',
     [int]$UserPasswordAge = '90'
-
  )
 
 $DateTime = get-date -uformat "%Y-%m-%d-%H-%M"

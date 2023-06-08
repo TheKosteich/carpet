@@ -1,0 +1,5 @@
+# Linux privilage escalation guides
+
+https://payatu.com/blog/a-guide-to-linux-privilege-escalation/
+https://sushant747.gitbooks.io/total-oscp-guide/content/privilege_escalation_-_linux.html
+https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Linux%20-%20Privilege%20Escalation.md

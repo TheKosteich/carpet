@@ -1,2 +1,6 @@
-# Brut POST form
+# POST form
     patator http_fuzz url=<full_form_url> method=POST body='username=<username>&password=FILE0&<other_parameters>' 0=wordlist.txt follow=1 accept_cookie=1 -x ignore:fgrep='<Ignore message>'
+
+
+# HTTP Basic Auth
+patator http_fuzz auth_type=basic url=http://FILE0/somedir user_pass=FILE1:FILE2 0=hosts.txt 1=users.txt 2=pass.txt -x ignore:code=401

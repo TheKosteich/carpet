@@ -81,3 +81,6 @@ git clone https://github.com/Neo23x0/yarGen.git
 
 # Windows PrintNightmare exploit
 git clone https://github.com/cube0x0/CVE-2021-1675
+
+#Windows UAC bypass
+https://github.com/hfiref0x/UACME
