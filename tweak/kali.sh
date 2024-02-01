@@ -5,6 +5,9 @@ echo "$ apt update && apt upgrade -y"
 
 apt install tmux fonts-powerline cherrytree terminator starkiller sshuttle exiftool mono-devel bloodhound docker.io gcc-9-base simplescreenrecorder
 
+# install zsh autocompleat plugins is needed
+# sudo apt install zsh-syntax-highlighting zsh-autosuggestions
+
 # To run bloodhound
 #   $ neo4j console
 #   - default credentials -> neo4j:neo4j
@@ -84,3 +87,17 @@ git clone https://github.com/cube0x0/CVE-2021-1675
 
 #Windows UAC bypass
 https://github.com/hfiref0x/UACME
+
+# Linux OS passwords and secrets dump
+git clone https://github.com/huntergregal/mimipenguin.git
+git clone https://github.com/controlplaneio/truffleproc.git
+git clone https://github.com/blendin/3snake.git
+git clone https://github.com/nopernik/SSHPry2.0.git
+git clone https://github.com/0xmitsurugi/gimmecredz.git
+
+##################################################################
+# Disable ipv6
+# net.ipv6.conf.all.disable_ipv6=1
+# net.ipv6.conf.default.disable_ipv6=1
+# net.ipv6.conf.lo.disable_ipv6=1
+# sudo sysctl -p

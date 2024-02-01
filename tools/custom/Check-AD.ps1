@@ -2,7 +2,7 @@
 SCRIPTNAME: Check-AD.ps1
 AUTHOR: Konstantin Tornovskii
 
-Last Updated: 07/09/2022
+Last Updated: 07/06/2023
 Version 0.0.2
 
 This script is designed for capturing data from Active Directory. Script running
